@@ -43,6 +43,8 @@
 (setq org-directory "~/org/")
 
 
+(setq doom-font (font-spec :family "JetbrainsMono Nerd Font Mono" :size 18))
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -74,3 +76,26 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(setq doom-theme 'catppuccin)
+
+;; Keybindings
+(after! evil-escape
+  (setq evil-escape-key-sequence "zx"))
+
+(map! :leader
+      :desc "Save buffer" "w w" #'save-buffer)
+
+(map! :leader
+      :desc "Save buffer and quit" "w q"
+      (lambda ()
+        (interactive)
+        (save-buffer)
+        (save-buffers-kill-terminal)))
+
+(map! :leader
+      (:prefix ("s" . "split window")
+        :desc "Split left (vertical)" "h" #'split-window-right
+        :desc "Split below (horizontal)" "j" (lambda () (interactive) (split-window-below) (windmove-down))
+        :desc "Split above (horizontal)" "k" #'split-window-below
+        :desc "Split right (vertical)" "l" (lambda () (interactive) (split-window-right) (windmove-right))))
